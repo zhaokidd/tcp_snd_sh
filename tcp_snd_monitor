@@ -1,0 +1,23 @@
+#!/bin/bash
+c_list=`adb shell ps |grep $1`
+
+#echo console.ps:$c_list
+
+#arr=($c_list)
+
+#declare -p arr
+
+pid=`echo $c_list |cut -d " " -f 2`
+
+#echo pid:$pid
+
+path=/proc/$pid/status
+uid_list=`adb shell cat $path |grep Uid`
+
+uid=`echo $uid_list |cut -d " " -f 2`
+#echo uid:$uid
+
+tcp_path=/proc/uid_stat/$uid/tcp_snd
+tcp_snd=`adb shell cat $tcp_path`
+
+echo tcp_snd:$tcp_snd
